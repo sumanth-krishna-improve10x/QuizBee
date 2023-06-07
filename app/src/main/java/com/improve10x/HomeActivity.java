@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.improve10x.quizbee.R;
 import com.improve10x.quizbee.databinding.ActivityHomeBinding;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
     ActivityHomeBinding binding;
 
     @Override

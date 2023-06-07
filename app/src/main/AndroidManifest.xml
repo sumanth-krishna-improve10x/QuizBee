@@ -15,6 +15,13 @@
         android:targetSdkVersion="31"
         android:theme="@style/Theme.QuizBee">
         <activity
+            android:name="com.improve10x.BaseActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name="com.improve10x.QuestionActivity"
             android:exported="false">
             <meta-data
