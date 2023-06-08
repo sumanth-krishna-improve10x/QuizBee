@@ -1,5 +1,6 @@
 package com.improve10x;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
 
     private List<Questions> questions;
-    private int quizId;
+    //private int quizId;
 
     OnItemActionListener onItemActionListener;
 
@@ -41,6 +42,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
         Questions question = questions.get(position);
         holder.binding.questionTxt.setText(String.valueOf(question.getNumber()));
         holder.binding.getRoot().setOnClickListener(v -> {
+            holder.binding.questionTxt.setTextColor(Color.parseColor("#D61D1D"));
             onItemActionListener.OnItemClicked(question);
         });
     }

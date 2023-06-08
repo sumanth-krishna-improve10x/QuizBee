@@ -1,6 +1,5 @@
 package com.improve10x;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
@@ -19,11 +18,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends BaseActivity {
 
-    public ArrayList<Questions> questions = new ArrayList<>();
+    public ArrayList<Questions> questionList = new ArrayList<>();
     public ActivityQuestionBinding binding;
     public QuestionAdapter questionAdapter;
+    int currentPosition = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,32 @@ public class QuestionActivity extends AppCompatActivity {
         getQuestion();
         setUpAdapter();
         setUpQuestionRv();
+        setupNxtBtn();
+        setUpPerviousBtn();
     }
+
+    private void onBindData(Questions questions) {
+        currentPosition = questions.getNumber();
+        binding.questionsTxt.setText(questions.getQuestion());
+        binding.radioBtn1.setText(questions.getAnswers().get(0));
+        binding.radioBtn2.setText(questions.getAnswers().get(1));
+        binding.radioBtn3.setText(questions.getAnswers().get(2));
+        binding.radioBtn4.setText(questions.getAnswers().get(3));
+    }
+
+    private void setUpPerviousBtn() {
+
+    }
+
+    private void setupNxtBtn() {
+        binding.nxtBtn.setOnClickListener(v -> {
+            currentPosition++;
+            Questions questions = questionList.get(currentPosition-1);
+            onBindData(questions);
+        });
+    }
+
+
 
     private void getQuestion() {
         QuizApi quizApi = new QuizApi();
@@ -45,6 +70,8 @@ public class QuestionActivity extends AppCompatActivity {
             public void onResponse(Call<List<Quiz>> call, Response<List<Quiz>> response) {
                 List<Quiz> quizzes = response.body();
                 questionAdapter.setData(quizzes.get(0).getQuestions());
+                questionList = quizzes.get(0).getQuestions();
+                onBindData(questionList.get(0));
                 Toast.makeText(QuestionActivity.this, "Got Question", Toast.LENGTH_SHORT).show();
             }
 
@@ -58,15 +85,12 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void setUpAdapter() {
         questionAdapter = new QuestionAdapter();
-        questionAdapter.setData(questions);
+        questionAdapter.setData(questionList);
         questionAdapter.setOnItemActionListener(new OnItemActionListener() {
             @Override
             public void OnItemClicked(Questions questions) {
-                binding.questionsTxt.setText(questions.getQuestion());
-                binding.radioBtn1.setText(questions.getAnswers().get(0));
-                binding.radioBtn2.setText(questions.getAnswers().get(1));
-                binding.radioBtn3.setText(questions.getAnswers().get(2));
-                binding.radioBtn4.setText(questions.getAnswers().get(3));
+
+                onBindData(questions);
             }
         });
     }
