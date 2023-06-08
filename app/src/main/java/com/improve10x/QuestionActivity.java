@@ -48,14 +48,27 @@ public class QuestionActivity extends BaseActivity {
     }
 
     private void setUpPerviousBtn() {
+        binding.perviousBtn.setOnClickListener(v -> {
+            currentPosition--;
+            try {
+                Questions questions = questionList.get(currentPosition-1);
+                onBindData(questions);
+            }catch (IndexOutOfBoundsException exception){
+                Toast.makeText(this, "This is the first question", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
     private void setupNxtBtn() {
         binding.nxtBtn.setOnClickListener(v -> {
             currentPosition++;
-            Questions questions = questionList.get(currentPosition-1);
-            onBindData(questions);
+            try {
+                Questions questions = questionList.get(currentPosition-1);
+                onBindData(questions);
+            }catch (IndexOutOfBoundsException exception){
+                Toast.makeText(this, "Questions completed", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
